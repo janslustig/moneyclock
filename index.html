@@ -22,9 +22,10 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grote
 main{width:100%;max-width:30rem;padding:1.5rem 1.25rem 2.5rem;display:flex;flex-direction:column;gap:1.5rem}
 h1{font-size:1.1rem;font-weight:600;margin:0;color:var(--muted)}
 .counter{padding:2rem 0 .5rem}
-.amount{font-size:clamp(3rem,16vw,5rem);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;word-break:break-all}
+.amount{font-size:clamp(2.2rem,11vw,3.8rem);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums;word-break:break-all}
 .sub{margin-top:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .sub b{color:var(--ink);font-weight:600}
+#time{display:inline-block;min-width:7.5em}
 .btns{display:flex;gap:.75rem}
 button{font:inherit;font-weight:600;border-radius:.75rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:1rem;cursor:pointer;min-height:3.25rem}
 button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -60,6 +61,7 @@ input{font:inherit;font-size:1.05rem;color:var(--ink);background:var(--surface);
   var salary=$('salary'),hours=$('hours'),btn=$('toggle');
   var eur=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
   var eurFine=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:3,maximumFractionDigits:3});
+  var eurLive=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:4,maximumFractionDigits:4});
   var accumMs=0,startTs=null,timer=null;
 
   function load(){
@@ -80,26 +82,27 @@ input{font:inherit;font-size:1.05rem;color:var(--ink);background:var(--surface);
   function render(){
     var ms=accumMs+(startTs?Date.now()-startTs:0);
     var r=rate();
-    $('amount').textContent=eur.format(ms/1000*r);
+    $('amount').textContent=eurLive.format(ms/1000*r);
     $('hourly').textContent=r?eur.format(r*3600):'–';
     $('minute').textContent=r?eurFine.format(r*60):'–';
-    var t=Math.floor(ms/1000);
-    $('time').textContent=pad(Math.floor(t/3600))+':'+pad(Math.floor(t%3600/60))+':'+pad(t%60);
+    var t=Math.floor(ms/1000),cs=Math.floor(ms%1000/10);
+    $('time').textContent=pad(Math.floor(t/3600))+':'+pad(Math.floor(t%3600/60))+':'+pad(t%60)+','+pad(cs);
   }
+  function loop(){render();if(startTs)timer=requestAnimationFrame(loop);}
   function run(){
     btn.textContent='Pause';btn.classList.add('running');
-    clearInterval(timer);timer=setInterval(render,50);render();
+    cancelAnimationFrame(timer);loop();
   }
   function pause(){
     accumMs+=Date.now()-startTs;startTs=null;
-    clearInterval(timer);btn.textContent='Weiter arbeiten';btn.classList.remove('running');render();
+    cancelAnimationFrame(timer);btn.textContent='Weiter arbeiten';btn.classList.remove('running');render();
   }
   btn.addEventListener('click',function(){
     if(startTs){pause();}else{startTs=Date.now();run();}
     save();
   });
   $('reset').addEventListener('click',function(){
-    clearInterval(timer);accumMs=0;startTs=null;
+    cancelAnimationFrame(timer);accumMs=0;startTs=null;
     btn.textContent='Arbeit starten';btn.classList.remove('running');render();save();
   });
   [salary,hours].forEach(function(el){el.addEventListener('input',function(){render();save();});});
