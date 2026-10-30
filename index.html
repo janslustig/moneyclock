@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Gehaltszähler</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Lilita+One&family=Press+Start+2P&display=swap">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'><rect x='2' y='0' width='4' height='1' fill='%23090318'/><rect x='1' y='1' width='1' height='1' fill='%23090318'/><rect x='2' y='1' width='4' height='1' fill='%23f5c542'/><rect x='6' y='1' width='1' height='1' fill='%23090318'/><rect x='0' y='2' width='1' height='1' fill='%23090318'/><rect x='1' y='2' width='2' height='1' fill='%23f5c542'/><rect x='3' y='2' width='2' height='1' fill='%23fde58a'/><rect x='5' y='2' width='2' height='1' fill='%23f5c542'/><rect x='7' y='2' width='1' height='1' fill='%23090318'/><rect x='0' y='3' width='1' height='1' fill='%23090318'/><rect x='1' y='3' width='1' height='1' fill='%23f5c542'/><rect x='2' y='3' width='1' height='1' fill='%23fde58a'/><rect x='3' y='3' width='4' height='1' fill='%23f5c542'/><rect x='7' y='3' width='1' height='1' fill='%23090318'/><rect x='0' y='4' width='1' height='1' fill='%23090318'/><rect x='1' y='4' width='1' height='1' fill='%23f5c542'/><rect x='2' y='4' width='1' height='1' fill='%23fde58a'/><rect x='3' y='4' width='2' height='1' fill='%23f5c542'/><rect x='5' y='4' width='1' height='1' fill='%23d19a1e'/><rect x='6' y='4' width='1' height='1' fill='%23f5c542'/><rect x='7' y='4' width='1' height='1' fill='%23090318'/><rect x='0' y='5' width='1' height='1' fill='%23090318'/><rect x='1' y='5' width='4' height='1' fill='%23f5c542'/><rect x='5' y='5' width='1' height='1' fill='%23d19a1e'/><rect x='6' y='5' width='1' height='1' fill='%23f5c542'/><rect x='7' y='5' width='1' height='1' fill='%23090318'/><rect x='1' y='6' width='1' height='1' fill='%23090318'/><rect x='2' y='6' width='4' height='1' fill='%23f5c542'/><rect x='6' y='6' width='1' height='1' fill='%23090318'/><rect x='2' y='7' width='4' height='1' fill='%23090318'/></svg>">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Press+Start+2P&display=swap">
 <style>
 :root{
   box-sizing:border-box;
@@ -12,7 +13,7 @@
   --ink:#5a4a36; --ink-soft:#8b7a62; --text:#fcf4e2; --muted:#c3d0e6;
   --mint:#bfe8d0; --mint-edge:#79b794; --mint-ink:#2f5d47;
   --rose:#f2bcae; --rose-edge:#d98f7e; --rose-ink:#7a3d30;
-  --head:"Lilita One","Fredoka",system-ui,sans-serif;
+  --head:"Fredoka",system-ui,-apple-system,"Segoe UI",sans-serif;
   --body:"Fredoka",system-ui,-apple-system,"Segoe UI",sans-serif;
   padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
   color-scheme:dark;
@@ -23,10 +24,10 @@
 :root[data-theme="dark"]{--bg1:#27375a; --bg2:#1e2b49; --muted:#a9b8d3;}
 html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg2)}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;min-height:100vh;display:flex;justify-content:center;background:linear-gradient(var(--bg1),var(--bg2)) fixed;color:var(--text);font-family:var(--body)}
+body{margin:0;min-height:100vh;display:flex;justify-content:center;background:linear-gradient(var(--bg1),var(--bg2)) fixed;color:var(--text);font-family:var(--body);font-weight:500}
 body::before{content:"";position:fixed;inset:14px;border:2px dashed rgba(252,244,226,.14);border-radius:28px;pointer-events:none}
 main{width:100%;max-width:34rem;padding:2.25rem 1.5rem 3rem;display:flex;flex-direction:column;gap:1.75rem;position:relative}
-h1{font-family:var(--head);font-weight:400;font-size:clamp(1.6rem,8vw,2.75rem);line-height:1.05;margin:0;letter-spacing:.01em}
+h1{font-family:var(--head);font-weight:600;font-size:clamp(1.6rem,8vw,2.75rem);line-height:1.05;margin:0;letter-spacing:.01em}
 .cap{margin:0 0 .9rem;color:var(--muted);font-size:.95rem}
 .top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
 .tools{display:flex;gap:.5rem}
@@ -38,7 +39,10 @@ h1{font-family:var(--head);font-weight:400;font-size:clamp(1.6rem,8vw,2.75rem);l
 #amt span{text-align:center}
 #amt,.cur{transform:translateY(.0625em)}
 #amt .d{width:1em}
-#amt .s{width:.55em}
+#amt .s{width:.55em;position:relative}
+#amt .s[data-c=","],#amt .s[data-c="."]{color:transparent}
+#amt .s[data-c=","]::after,#amt .s[data-c="."]::after{content:"";position:absolute;left:.0875em;top:.625em;width:.25em;height:.25em;background:currentColor;background:var(--ink)}
+#amt .s[data-c=","]::before{content:"";position:absolute;left:.0875em;top:.875em;width:.125em;height:.125em;background:var(--ink)}
 .cur{margin-left:.2em}
 .meta{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:.4rem 1.25rem;color:var(--muted);font-size:.95rem;font-variant-numeric:tabular-nums}
 .meta b{color:var(--text);font-weight:500}
@@ -58,12 +62,12 @@ button:disabled:active{transform:none;box-shadow:0 var(--d) 0 var(--sh,var(--edg
 .card{background:var(--card);color:var(--ink);border-radius:18px;padding:1.25rem 1.25rem 2rem}
 .stats{display:flex;flex-direction:column;gap:.85rem;-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
 .mhead{display:flex;align-items:center;justify-content:space-between}
-.mhead h2,.bankmain h2,.sethead h2{margin:0;font-size:1.15rem;font-weight:600}
+.mhead h2,.bankmain h2,.sethead h2{margin:0;font-size:1.15rem;font-weight:500}
 .mhead button{--d:3px;--sh:var(--tag-edge);width:2.5rem;min-height:2.5rem;height:2.5rem;padding:0;font-size:1.4rem;line-height:1;background:var(--tag);color:var(--ink);border-radius:12px}
 .mhead button:disabled{opacity:.4;cursor:default}
 .mnums{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .k{display:block;font-size:.85rem;color:var(--ink-soft)}
-.mnums b{font-size:1.55rem;font-weight:600;font-variant-numeric:tabular-nums}
+.mnums b{font-size:1.55rem;font-weight:500;font-variant-numeric:tabular-nums}
 .track{height:14px;border-radius:999px;background:var(--rose);overflow:hidden}
 #mbar{height:100%;width:0;background:var(--mint-edge);border-radius:999px}
 .chart{display:flex;align-items:flex-end;gap:3px;height:5rem}
@@ -79,7 +83,7 @@ button:disabled:active{transform:none;box-shadow:0 var(--d) 0 var(--sh,var(--edg
 .setbox{display:flex;flex-direction:column;gap:1.1rem;padding:1.25rem}
 .sethead{display:flex;align-items:center;justify-content:space-between}
 .setsec{display:flex;flex-direction:column;gap:.6rem;padding-top:1.1rem;border-top:2px dashed var(--edge)}
-.setsec b{font-weight:600}
+.setsec b{font-weight:500}
 #setclose{font-size:1.5rem}
 #wipe{background:var(--rose);color:var(--rose-ink);--sh:var(--rose-edge);font-size:1rem}
 .pigcard{display:flex;flex-direction:column;gap:.5rem;padding-bottom:1.25rem}
@@ -95,18 +99,49 @@ button:disabled:active{transform:none;box-shadow:0 var(--d) 0 var(--sh,var(--edg
 .banklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem;font-size:.9rem}
 .banklist:empty{display:none}
 .banklist li{display:flex;justify-content:space-between;gap:1rem;padding-bottom:.3rem;border-bottom:1px dashed var(--edge)}
-.banklist b{font-weight:600;font-variant-numeric:tabular-nums}
+.banklist b{font-weight:500;font-variant-numeric:tabular-nums}
 .card.flash{animation:flash 1.3s ease-out}
 @keyframes flash{0%{background:#d6f2dc}100%{background:var(--card)}}
 @media (prefers-reduced-motion:reduce){.card.flash{animation:none}}
 #pig{display:block;align-self:center;width:192px;height:auto;margin:calc(var(--px,4px) + .5rem) 0;image-rendering:crisp-edges;image-rendering:pixelated;cursor:pointer;box-shadow:0 calc(-1*var(--px,4px)) 0 #1b2740,0 var(--px,4px) 0 #1b2740,calc(-1*var(--px,4px)) 0 0 #1b2740,var(--px,4px) 0 0 #1b2740}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;align-items:end}
 label{display:flex;flex-direction:column;gap:.4rem;font-size:.9rem;color:var(--muted)}
 input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:var(--card);border:0;border-bottom:4px solid var(--edge);border-radius:12px;padding:.7rem .9rem;width:100%}
+#settings label{color:var(--ink-soft)}
+#settings .fields label:nth-child(3){grid-column:1/-1}
+#settings input:not(.swi){background:#fffaf0;box-shadow:inset 0 0 0 2px var(--edge)}
+#settings label.sw{flex-direction:row;align-items:center;justify-content:space-between;gap:1rem;font-size:1rem;color:var(--ink);font-weight:500}
+input.swi{-webkit-appearance:none;appearance:none;flex:none;width:3.4rem;height:2rem;padding:0;border:0;border-radius:999px;background:var(--edge);position:relative;transition:background .15s}
+input.swi::after{content:"";position:absolute;top:.25rem;left:.25rem;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--card);box-shadow:0 2px 0 rgba(0,0,0,.2);transition:transform .15s}
+input.swi:checked{background:var(--mint-edge)}
+input.swi:checked::after{transform:translateX(1.4rem)}
+main[hidden]{display:none}
+#bankcard{cursor:pointer}
+#shopbtn{background:var(--tag);color:var(--ink);--sh:var(--tag-edge);font-size:1rem;margin-top:.3rem}
+#shopbtn::after{content:"\00a0\203A"}
+.shophead{display:flex;align-items:center;gap:.9rem}
+.shophead h1{flex:1;min-width:0}
+#shopback{font-size:1.5rem}
+.shopbal{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.shopbal .k{font-family:"Press Start 2P",var(--body);font-size:.55rem;line-height:1.4;margin-bottom:.45rem}
+.shopbal b{font-family:"Press Start 2P",var(--body);font-size:clamp(.8rem,3.9vw,1.05rem);font-weight:400}
+.shopgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(8.5rem,1fr));gap:1rem}
+.tile{display:flex;flex-direction:column;gap:.6rem;background:var(--card);color:var(--ink);padding:.6rem .6rem .7rem;border-radius:6px;box-shadow:0 4px 0 var(--edge),0 4px 0 2px #1b2740,0 0 0 2px #1b2740}
+.tslot{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#fffaf0 repeating-conic-gradient(var(--tag) 0 25%,#fffaf0 0 50%) 0 0/16px 16px;box-shadow:inset 0 0 0 3px var(--edge);border-radius:4px;font-family:"Press Start 2P",var(--body);font-size:1.4rem;color:var(--tag-edge)}
+.tname{font-weight:500;font-size:.95rem;line-height:1.2;min-height:1.15em}
+.tprice{align-self:flex-start;font-family:"Press Start 2P",var(--body);font-size:.6rem;line-height:1;background:var(--tag);color:var(--ink);padding:.5rem .6rem;border-radius:4px;box-shadow:0 3px 0 var(--tag-edge)}
+.tslot canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges;image-rendering:pixelated}
+.tbtn{--d:3px;font-size:.9rem;min-height:2.6rem;padding:.5rem .6rem;border-radius:10px;background:var(--mint);color:var(--mint-ink);--sh:var(--mint-edge)}
+.tbtn.on{background:var(--rose);color:var(--rose-ink);--sh:var(--rose-edge)}
+.tbtn.own{background:var(--tag);color:var(--ink);--sh:var(--tag-edge)}
+.testtools{display:flex;flex-direction:column;gap:.5rem}
+.testtools[hidden]{display:none}
+.tile.empty .tname,.tile.empty .tprice{color:var(--ink-soft)}
+.tile.empty .tprice{background:var(--edge);box-shadow:0 3px 0 var(--tag-edge)}
 </style>
 </head>
 <body>
-<main>
+<main id="home">
   <header class="top">
     <h1>Gehaltszähler</h1>
     <div class="tools">
@@ -115,7 +150,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     </div>
   </header>
   <section class="counter" aria-live="off">
-    <p class="cap">Heutiger Verdienst</p>
+    <p class="cap" id="cap">Heutiger Verdienst</p>
     <div class="tag"><span class="amount"><span id="amt">0,0000</span><span class="cur">€</span></span></div>
     <div class="meta">
       <span>Pro Stunde <b id="hourly">–</b></span>
@@ -142,6 +177,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     </div>
     <ul class="banklist" id="banklist"></ul>
     <p class="hint" id="bankhint"></p>
+    <button id="shopbtn" type="button">Zum Shop</button>
   </section>
   <section class="stats card" aria-label="Monatsstatistik">
     <div class="mhead">
@@ -159,11 +195,17 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     <div class="axis"><span>1.</span><span id="mlast"></span></div>
     <p class="hint" id="mavg"></p>
   </section>
-  <section class="fields">
-    <label>Monatsgehalt (€)<input id="salary" type="number" inputmode="decimal" min="0" step="any" value="3000"></label>
-    <label>Arbeitsstunden pro Monat<input id="hours" type="number" inputmode="decimal" min="0" step="any" value="160"></label>
+</main>
+<main id="shop" hidden>
+  <header class="shophead">
+    <button id="shopback" class="ibtn" type="button" aria-label="Zurück">&lsaquo;</button>
+    <h1>Shop</h1>
+  </header>
+  <section class="card shopbal" aria-label="Kontostand">
+    <div><span class="k">Verfügbar</span><b id="shopbal">0,00 €</b></div>
   </section>
-  <p class="hint">Die Eingaben werden in diesem Browser gespeichert.</p>
+  <p class="hint" id="shophint" style="margin-top:-.75rem">Gekaufte Dinge erscheinen in deiner Szene.</p>
+  <ul class="shopgrid" id="shopgrid" aria-label="Angebote"></ul>
 </main>
 <dialog id="settings" aria-labelledby="settitle">
   <div class="setbox">
@@ -172,8 +214,28 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
       <button id="setclose" class="ibtn" type="button" aria-label="Schließen">&times;</button>
     </div>
     <div class="setsec">
+      <b>Gehalt &amp; Arbeitszeit</b>
+      <div class="fields">
+        <label>Monatsgehalt netto (€)<input id="salary" type="number" inputmode="decimal" min="0" step="any" value="3000"></label>
+        <label>Arbeitsstunden pro Monat<input id="hours" type="number" inputmode="decimal" min="0" step="any" value="160"></label>
+        <label>Fixkosten pro Monat (€)<input id="fixed" type="number" inputmode="decimal" min="0" step="any" value="0"></label>
+      </div>
+      <label class="sw"><span>Fixkosten vom Verdienst abziehen</span><input id="usefixed" class="swi" type="checkbox" role="switch"></label>
+      <p class="hint" id="effhint"></p>
+      <p class="hint">Die Eingaben werden in diesem Browser gespeichert.</p>
+    </div>
+    <div class="setsec">
+      <b>Testmodus</b>
+      <label class="sw"><span>Unbegrenztes Geld im Shop</span><input id="testmode" class="swi" type="checkbox" role="switch"></label>
+      <p class="hint">Käufe kosten nichts, das Flugzeug fliegt alle paar Sekunden. Sparkonto und Statistik bleiben unverändert.</p>
+      <div class="testtools" id="testtools" hidden>
+        <button id="testfly" class="tbtn" type="button">Flugzeug jetzt fliegen lassen</button>
+        <button id="testreset" class="tbtn" type="button">Käufe zurücksetzen</button>
+      </div>
+    </div>
+    <div class="setsec">
       <b>Daten</b>
-      <p class="hint">Löscht Statistik, Sparkonto und den heutigen Tag. Gehalt und Arbeitsstunden bleiben erhalten.</p>
+      <p class="hint">Löscht Statistik, Sparkonto, Käufe und den heutigen Tag. Gehalt, Arbeitsstunden und Fixkosten bleiben erhalten.</p>
       <button id="wipe" type="button">Alle Daten löschen</button>
     </div>
   </div>
@@ -181,7 +243,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
 <script>
 (function(){
   var $=function(id){return document.getElementById(id)};
-  var salary=$('salary'),hours=$('hours'),btn=$('toggle');
+  var salary=$('salary'),hours=$('hours'),fixed=$('fixed'),useFixed=$('usefixed'),btn=$('toggle');
   var eur=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
   var eurFine=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:3,maximumFractionDigits:3});
   var nf4=new Intl.NumberFormat('de-DE',{minimumFractionDigits:4,maximumFractionDigits:4});
@@ -191,8 +253,14 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
       var ch=str.charAt(i),sp=el.children[i],cl=/\d/.test(ch)?'d':'s';
       if(sp.className!==cl)sp.className=cl;
       if(sp.textContent!==ch)sp.textContent=ch;
+      if(sp.getAttribute('data-c')!==ch)sp.setAttribute('data-c',ch);
     }
   }
+  var items={},testMode=false;
+  try{items=JSON.parse(localStorage.getItem('gehaltszaehler-items')||'{}')||{};}catch(e){}
+  try{testMode=localStorage.getItem('gehaltszaehler-test')==='1';}catch(e){}
+  function saveItems(){try{localStorage.setItem('gehaltszaehler-items',JSON.stringify(items));}catch(e){}}
+  function itemOn(id){return !!(items[id]&&items[id].own&&items[id].on);}
   var accumMs=0,startTs=null,ended=false,bank={bal:0,tx:[]},bankShown=0,lc=null,log={},rateNow=0,lastSave=0,lastStats=0,viewY=new Date().getFullYear(),viewM=new Date().getMonth();
 
   /* ---------- Zähler ---------- */
@@ -228,7 +296,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
       if(!AC)return;
       actx=actx||new AC();
       if(actx.state==='suspended')actx.resume();
-      if(k==='coin'){tone(988,988,.07,'square',.05);tone(1319,1319,.16,'square',.05,.07);return;}
+      if(k==='pop'){function thud(w,fc,v){var n=Math.floor(actx.sampleRate*.04),b=actx.createBuffer(1,n,actx.sampleRate),d=b.getChannelData(0),i,s=actx.createBufferSource(),f=actx.createBiquadFilter(),g=actx.createGain();for(i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.exp(-i/(actx.sampleRate*.007));s.buffer=b;f.type='lowpass';f.frequency.value=fc;g.gain.value=v;s.connect(f);f.connect(g);g.connect(actx.destination);s.start(actx.currentTime+w);}thud(0,900,.7);tone(160,70,.07,'triangle',.28);thud(.03,1500,.3);return;}if(k==='coin'){tone(988,988,.07,'square',.05);tone(1319,1319,.16,'square',.05,.07);return;}
       click(k==='start'?1.15:k==='pause'?.9:k==='reset'?.75:1.4,k==='tick'?.55:1);
     }catch(e){}
   }
@@ -239,7 +307,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
   function load(){
     try{
       var s=JSON.parse(localStorage.getItem('gehaltszaehler')||'null');
-      if(s){salary.value=s.salary;hours.value=s.hours;accumMs=s.accumMs||0;ended=!!s.ended;lc=s.lc||null;
+      if(s){salary.value=s.salary;hours.value=s.hours;if(s.fixed!==undefined)fixed.value=s.fixed;useFixed.checked=!!s.useFixed;accumMs=s.accumMs||0;ended=!!s.ended;lc=s.lc||null;
         if(s.startTs){startTs=s.startTs;}}
       log=JSON.parse(localStorage.getItem('gehaltszaehler-log')||'{}')||{};
       bank=JSON.parse(localStorage.getItem('gehaltszaehler-bank')||'null')||bank;
@@ -248,10 +316,11 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     if(startTs){if(!lc)lc=startTs;commit(Date.now());run();}
   }
   function save(){
-    try{localStorage.setItem('gehaltszaehler',JSON.stringify({salary:salary.value,hours:hours.value,accumMs:accumMs,startTs:startTs,ended:ended,lc:lc}));localStorage.setItem('gehaltszaehler-log',JSON.stringify(log));}catch(e){}
+    try{localStorage.setItem('gehaltszaehler',JSON.stringify({salary:salary.value,hours:hours.value,fixed:fixed.value,useFixed:useFixed.checked,accumMs:accumMs,startTs:startTs,ended:ended,lc:lc}));localStorage.setItem('gehaltszaehler-log',JSON.stringify(log));}catch(e){}
   }
+  function base(){var s=parseFloat(salary.value)||0,f=parseFloat(fixed.value)||0;return useFixed.checked?Math.max(0,s-f):s;}
   function rate(){
-    var s=parseFloat(salary.value),h=parseFloat(hours.value);
+    var s=base(),h=parseFloat(hours.value);
     return (s>0&&h>0)?s/h/3600:0;
   }
   function pad(n){return String(n).padStart(2,'0')}
@@ -466,49 +535,95 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     light=SKY[i-1][3]+(SKY[i][3]-SKY[i-1][3])*t;
     for(y=0;y<HP;y++){
       if(y<GP){band=Math.min(nb-1,Math.floor(y/(GP/nb)));c=pack(mixc(top,bot,band/(nb-1)));}
-      else{g=hexRGB(y<GP+R?'#c9bb98':'#e3d6b8');c=pack([g[0]*light,g[1]*light,g[2]*light]);}
+      else continue;
       for(x=0;x<WP;x++)BG[y*WP+x]=c;
     }
-    g=hexRGB('#c9bb98');c=pack([g[0]*light,g[1]*light,g[2]*light]);
-    for(x=0;x<WP;x+=9*R)for(k=0;k<2*R;k++)if(x+k<WP){BG[(GP+2*R)*WP+x+k]=c;BG[(GP+2*R+1)*WP+x+k]=c;}
+    /* Pixel-Sand: pro Pixelblock ein Sandton, dazu Körner und kleine Steinchen */
+    var SAND=['#e3d6b8','#e3d6b8','#dccdac','#d3c3a0','#eadfc4','#cbbb97'],lx,ly,h,hx;
+    for(y=GP;y<HP;y++){
+      ly=Math.floor(y/R);
+      for(x=0;x<WP;x++){
+        lx=Math.floor(x/R);
+        h=(Math.imul(lx+1,374761393)^Math.imul(ly+7,668265263))>>>0;h=Math.imul(h^(h>>>13),1274126177)>>>0;h=(h^(h>>>16))>>>0;
+        if(ly===GY)hx=(h%5<3)?'#f0e6cc':'#d9caa6';
+        else if(h%23===0)hx='#a8966f';
+        else if(h%9===0)hx='#f2e9d0';
+        else hx=SAND[h%SAND.length];
+        g=hexRGB(hx);BG[y*WP+x]=pack([g[0]*light,g[1]*light,g[2]*light]);
+      }
+    }
   }
-  function glow(cx,cy,r,rgb,a){
-    var WP=PW*R,GP=GY*R,x,y,i,p;
-    for(y=Math.max(0,cy-r);y<=Math.min(GP-1,cy+r);y++)for(x=Math.max(0,cx-r);x<=Math.min(WP-1,cx+r);x++){
-      if((x-cx)*(x-cx)+(y-cy)*(y-cy)>r*r)continue;
-      i=y*WP+x;p=buf[i];
-      buf[i]=pack([(p&255)*(1-a)+rgb[0]*a,((p>>8)&255)*(1-a)+rgb[1]*a,((p>>16)&255)*(1-a)+rgb[2]*a]);
+  /* Himmelskörper werden in Pixelblöcken gezeichnet (1 Block = 1 Sandpixel = R x R Bildpunkte). cx, cy, r in Blöcken. */
+  function glow(cx,cy,r,rgb,al){
+    var WP=PW*R,x,y,i,p,u,v,rr=(r+.5)*(r+.5);
+    for(y=Math.max(0,cy-r);y<=Math.min(GY-1,cy+r);y++)for(x=Math.max(0,cx-r);x<=Math.min(PW-1,cx+r);x++){
+      if((x-cx)*(x-cx)+(y-cy)*(y-cy)>rr)continue;
+      for(v=0;v<R;v++)for(u=0;u<R;u++){i=(y*R+v)*WP+x*R+u;p=buf[i];
+        buf[i]=pack([(p&255)*(1-al)+rgb[0]*al,((p>>8)&255)*(1-al)+rgb[1]*al,((p>>16)&255)*(1-al)+rgb[2]*al]);}
     }
   }
   function disc(cx,cy,r,rgb,cut){
-    var WP=PW*R,GP=GY*R,x,y,dx,dy,c=pack(rgb);
+    var WP=PW*R,x,y,dx,dy,u,v,c=pack(rgb),rr=(r+.5)*(r+.5);
     for(y=Math.floor(cy-r);y<=Math.ceil(cy+r);y++){
-      if(y<0||y>=GP)continue;
+      if(y<0||y>=GY)continue;
       for(x=Math.floor(cx-r);x<=Math.ceil(cx+r);x++){
-        if(x<0||x>=WP)continue;
-        dx=x+.5-cx;dy=y+.5-cy;
-        if(dx*dx+dy*dy>r*r)continue;
-        if(cut&&(x+.5-cut[0])*(x+.5-cut[0])+(y+.5-cut[1])*(y+.5-cut[1])<=cut[2]*cut[2])continue;
-        buf[y*WP+x]=c;
+        if(x<0||x>=PW)continue;
+        dx=x-cx;dy=y-cy;
+        if(dx*dx+dy*dy>rr)continue;
+        if(cut&&(x-cut[0])*(x-cut[0])+(y-cut[1])*(y-cut[1])<=cut[2]*cut[2])continue;
+        for(v=0;v<R;v++)for(u=0;u<R;u++)buf[(y*R+v)*WP+x*R+u]=c;
       }
     }
   }
   function drawSky(h){
     var p,cx,cy;
     if(h>=6&&h<20){
-      p=(h-6)/14;cx=Math.round((14+(PW-28)*p)*R);cy=Math.round((GY-6-Math.sin(p*Math.PI)*(GY-34))*R);
-      glow(cx,cy,24*R,[255,226,140],.08);glow(cx,cy,17*R,[255,226,140],.12);glow(cx,cy,12*R,[255,232,150],.2);
-      disc(cx,cy,7*R,[255,170,30]);disc(cx,cy,7*R-1.6,[255,213,74]);disc(cx-R,cy-R,3*R,[255,236,140]);
+      p=(h-6)/14;cx=Math.round(14+(PW-28)*p);cy=Math.round(GY-6-Math.sin(p*Math.PI)*(GY-34));
+      glow(cx,cy,24,[255,226,140],.08);glow(cx,cy,17,[255,226,140],.12);glow(cx,cy,12,[255,232,150],.2);
+      disc(cx,cy,7,[255,170,30]);disc(cx,cy,5,[255,213,74]);disc(cx-2,cy-2,2,[255,236,140]);
     }else{
-      p=(h>=20?h-20:h+4)/10;cx=Math.round((14+(PW-28)*p)*R);cy=Math.round((GY-6-Math.sin(p*Math.PI)*(GY-34))*R);
-      glow(cx,cy,22*R,[170,190,255],.07);glow(cx,cy,15*R,[170,190,255],.10);
-      disc(cx,cy,6*R,[246,241,211],[cx+3*R,cy-2*R,5.2*R]);
+      p=(h>=20?h-20:h+4)/10;cx=Math.round(14+(PW-28)*p);cy=Math.round(GY-6-Math.sin(p*Math.PI)*(GY-34));
+      glow(cx,cy,22,[170,190,255],.07);glow(cx,cy,15,[170,190,255],.10);
+      disc(cx,cy,6,[246,241,211],[cx+3,cy-2,5.2]);
     }
+  }
+  /* ---------- Flugzeug ---------- */
+  var PLANE=['..XX................','..XRX...............','..XRRX..............','..XRWWXXXXXXXXXXX...','...XWWWWWWWWWWWWWXX.','...XWBWBWBWWWWWBBWX.','...XGGGGGGGGGGGGGGX.','....XXXXXGGGXXXXXX..','.........XGGGX......','.........XXXXX......'],
+      PLC={X:'#1b2740',W:'#f4f1ea',G:'#b9c3d4',R:'#e0453d',B:'#5aa9e6'},PLW=20,PSPD=16,
+      plane={on:false,x:0,y:12,dir:1},planeTimer=null;
+  function planeCols(){var k,o={};for(k in PLC)o[k]=pack(hexRGB(PLC[k]));return o;}
+  var PLP=planeCols();
+  function drawPlane(){
+    var r,c,ch,cc,px,py,u,v,WP=PW*R,col;
+    if(!plane.on)return;
+    for(r=0;r<PLANE.length;r++)for(c=0;c<PLW;c++){
+      cc=plane.dir>0?c:PLW-1-c;ch=PLANE[r].charAt(cc);if(ch==='.')continue;col=PLP[ch];
+      px=Math.round(plane.x)+c;py=plane.y+r;
+      if(px<0||px>=PW||py<0||py>=GY)continue;
+      for(v=0;v<R;v++)for(u=0;u<R;u++)buf[(py*R+v)*WP+px*R+u]=col;
+    }
+  }
+  function startFlight(){
+    if(plane.on)return;
+    plane.dir=Math.random()<.5?1:-1;plane.y=10+Math.floor(Math.random()*17);
+    plane.x=plane.dir>0?-PLW:PW;plane.on=true;pixKick();
+  }
+  function scheduleFlight(){
+    var ms;
+    clearTimeout(planeTimer);planeTimer=null;
+    if(!itemOn('plane'))return;
+    ms=testMode?5000+Math.random()*3000:(30+Math.random()*60)*1000;
+    planeTimer=setTimeout(function(){
+      planeTimer=null;
+      if(!itemOn('plane')||plane.on)return;
+      if(document.hidden||$('home').hidden||reduce){planeTimer=setTimeout(function(){planeTimer=null;scheduleFlight();},2000);return;}
+      startFlight();
+    },ms);
   }
   function drawPix(){
     var WP=PW*R,HP=PH*R,i,u,v,f,a,b,hh=curHour(),mm=Math.floor(hh*60);
     if(mm!==bgMin){bgMin=mm;buildBG(hh);}
-    buf.set(BG);drawSky(hh);
+    buf.set(BG);drawSky(hh);drawPlane();
     for(i=0;i<bodies.length;i++)blit(bodies[i]);
     for(i=0;i<sparks.length;i++){
       f=sparks[i];u=Math.round(f.x*R);v=Math.round(f.y*R);
@@ -528,13 +643,14 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     }
     evts=[];
     for(i=sparks.length-1;i>=0;i--){b=sparks[i];b.x+=b.vx;b.y+=b.vy;b.vy+=.15;if(--b.life<=0)sparks.splice(i,1);}
+    if(plane.on){plane.x+=plane.dir*PSPD*dt;if((plane.dir>0&&plane.x>PW)||(plane.dir<0&&plane.x<-PLW)){plane.on=false;scheduleFlight();}}
     drawPix();
-    pTimer=(spawnQ.length||awake()||sparks.length)?setTimeout(pixLoop,33):null;
+    pTimer=(spawnQ.length||awake()||sparks.length||plane.on)?setTimeout(pixLoop,33):null;
   }
   function pixKick(){if(!pTimer){lastT=performance.now();acc=0;pixLoop();}}
   function allocPix(){pcv.width=PW*R;pcv.height=PH*R;img=pcx.createImageData(PW*R,PH*R);buf=new Uint32Array(img.data.buffer);BG=new Uint32Array(PW*R*PH*R);bgMin=-1;}
   function fitPix(){
-    var w=$('pigtop').clientWidth||300,s=Math.max(2,Math.min(5,Math.round(w/110))),np=Math.max(80,Math.floor((w-2*s)/s));
+    if(!$('pigtop').clientWidth)return;var w=$('pigtop').clientWidth||300,s=Math.max(2,Math.min(5,Math.round(w/110))),np=Math.max(80,Math.floor((w-2*s)/s));
     pcv.style.width=(np*s)+'px';pcv.style.setProperty('--px',s+'px');
     if(np!==PW){PW=np;allocPix();bodies=[];spawnQ=[];sparks=[];evts=[];dropped=null;if(ready)renderPig();}
     else drawPix();
@@ -562,8 +678,8 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     ul.innerHTML='';
     for(i=0;i<n;i++){
       li=document.createElement('li');a=document.createElement('span');b=document.createElement('b');
-      a.textContent=new Date(bank.tx[i].t).toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short'});
-      b.textContent='+'+eur.format(bank.tx[i].a);
+      a.textContent=new Date(bank.tx[i].t).toLocaleDateString('de-DE',{weekday:'short',day:'numeric',month:'short'})+(bank.tx[i].n?' · '+bank.tx[i].n:'');
+      b.textContent=(bank.tx[i].a<0?'':'+')+eur.format(bank.tx[i].a);
       li.appendChild(a);li.appendChild(b);ul.appendChild(li);
     }
     $('bankhint').textContent=bank.tx.length?'':'Wenn du einen Tag beendest, wird der Verdienst hier eingezahlt.';
@@ -611,7 +727,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     $('mnext').disabled=(viewY===n.getFullYear()&&viewM===n.getMonth());
     renderPig();
   }
-  function showRate(){var r=rate();$('hourly').textContent=r?eur.format(r*3600):'–';$('minute').textContent=r?eurFine.format(r*60):'–';$('goal').textContent=r?eur.format(r*8*3600):'–';}
+  function showRate(){var r=rate(),s0=parseFloat(salary.value)||0,f0=parseFloat(fixed.value)||0,on=useFixed.checked;$('cap').textContent=on?'Heutiger Verdienst (nach Fixkosten)':'Heutiger Verdienst';$('effhint').textContent=on?'Effektiv: '+eur.format(Math.max(0,s0-f0))+' pro Monat (Netto − Fixkosten)':'Berechnet wird das volle Nettogehalt: '+eur.format(s0)+' pro Monat.';$('hourly').textContent=r?eur.format(r*3600):'–';$('minute').textContent=r?eurFine.format(r*60):'–';$('goal').textContent=r?eur.format(r*8*3600):'–';}
   function render(){
     var ms=accumMs+(startTs?Date.now()-startTs:0);
     var r=rate();
@@ -643,7 +759,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     snd('tick');this.textContent='Wirklich beenden?';
     endArm=setTimeout(function(){endArm=null;syncBtns();},4000);
   });
-  [salary,hours].forEach(function(el){el.addEventListener('input',function(){commit(Date.now());rateNow=rate();showRate();render();renderStats();save();});});
+  [salary,hours,fixed,useFixed].forEach(function(el){el.addEventListener('input',function(){commit(Date.now());rateNow=rate();showRate();render();renderStats();save();});});
   $('mprev').addEventListener('click',function(){snd('tick');viewM--;if(viewM<0){viewM=11;viewY--;}renderStats();});
   $('mnext').addEventListener('click',function(){snd('tick');viewM++;if(viewM>11){viewM=0;viewY++;}renderStats();});
   /* ---------- Einstellungen ---------- */
@@ -654,6 +770,7 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     if(endArm){clearTimeout(endArm);endArm=null;}
     cancelAnimationFrame(timer);
     accumMs=0;startTs=null;lc=null;ended=false;log={};bank={bal:0,tx:[]};bankShown=0;viewY=n.getFullYear();viewM=n.getMonth();
+    items={};saveItems();plane.on=false;scheduleFlight();
     saveBank();save();renderBank();syncBtns();render();renderStats();
   }
   $('setbtn').addEventListener('click',function(){snd('tick');dlg.showModal();});
@@ -665,12 +782,124 @@ input{font:inherit;font-size:1.1rem;font-weight:500;color:var(--ink);background:
     snd('tick');wipeBtn.textContent='Wirklich alles löschen? Nochmal tippen';
     wipeArm=setTimeout(wipeDisarm,4000);
   });
+  /* ---------- Pixel-Mauszeiger (CS = Pixelgröße) ---------- */
+  (function(){
+    var CS=5,W=6,H=6,
+    ARROW=['.XXXX.','XPPPRX','XPPRX.','XPRX..','XRX...','.X....'];
+    /* X = Rand, P/R = Rot-Töne, . = leer (abgeschnittene Ecken = leicht abgerundet) */
+    function mk(){
+      var c=document.createElement('canvas'),x=c.getContext('2d'),P={X:'#090318',P:'#eb6060',R:'#d93f3c'};
+      c.width=W*CS;c.height=H*CS;
+      function put(rows,ox,oy){rows.forEach(function(r,y){for(var i=0;i<r.length;i++){var k=P[r.charAt(i)];if(k){x.fillStyle=k;x.fillRect((ox+i)*CS,(oy+y)*CS,CS,CS);}}});}
+      put(ARROW,0,0);
+      return c.toDataURL();
+    }
+    try{
+      var a=mk(),st=document.createElement('style');
+      st.textContent='*,*::before,*::after,button:disabled,input:disabled{cursor:url('+a+') '+CS+' '+CS+',auto !important}';
+      document.head.appendChild(st);
+    }catch(e){}
+  })();
+  /* Klickton bei jedem Klick auf der Seite */
+  document.addEventListener('pointerdown',function(){snd('pop');});
   document.addEventListener('visibilitychange',function(){if(document.hidden){commit(Date.now());save();}});
   window.addEventListener('pagehide',function(){commit(Date.now());save();});
   fitPix();
   window.addEventListener('resize',fitPix);
   setInterval(function(){if(!pTimer)drawPix();},60000);
-  load();bankShown=bank.bal;renderBank();syncBtns();showRate();render();renderStats();ready=true;
+  load();bankShown=bank.bal;renderBank();syncBtns();showRate();render();renderStats();ready=true;scheduleFlight();
+  /* ---------- Shop (Ansicht #shop) ---------- */
+  /* Angebote später hier eintragen: {name:'Palme',price:12.5,draw:function(ctx,w,h){...}} */
+  function drawPlaneSprite(ctx,x,y){
+    var r,c,ch;
+    for(r=0;r<PLANE.length;r++)for(c=0;c<PLW;c++){ch=PLANE[r].charAt(c);if(ch==='.')continue;ctx.fillStyle=PLC[ch];ctx.fillRect(x+c,y+r,1,1);}
+  }
+  var SHOP_ITEMS=[{id:'plane',name:'Flugzeug',price:10000,draw:function(ctx,w,h){
+    var i;ctx.fillStyle='#7fb8e6';ctx.fillRect(0,0,w,h);
+    ctx.fillStyle='#a6d0f0';ctx.fillRect(0,Math.floor(h*.55),w,h);
+    ctx.fillStyle='#ffffff';
+    [[3,5,6,2],[4,4,3,1],[20,22,6,2],[21,21,3,1],[18,6,5,2]].forEach(function(q){ctx.fillRect(q[0],q[1],q[2],q[3]);});
+    drawPlaneSprite(ctx,Math.floor((w-PLW)/2),Math.floor((h-PLANE.length)/2));
+  }}],SHOP_SLOTS=6,buyArm=null,buyId=null;
+  function buyDisarm(){if(buyArm){clearTimeout(buyArm);buyArm=null;}buyId=null;}
+  function buy(it){
+    var st=items[it.id];
+    if(st&&st.own)return;
+    if(!testMode&&bank.bal<it.price-1e-9)return;
+    if(!testMode){
+      bank.bal=Math.round((bank.bal-it.price)*100)/100;
+      bank.tx.unshift({t:Date.now(),a:-it.price,n:it.name});if(bank.tx.length>100)bank.tx.length=100;
+      saveBank();bankShown=bank.bal;renderBank();
+    }
+    items[it.id]={own:true,on:true};saveItems();snd('coin');
+    if(it.id==='plane')scheduleFlight();
+  }
+  function renderShop(){
+    var ul=$('shopgrid'),i,li,s,n,p,it,bt,cv,st,afford;
+    $('shopbal').textContent=testMode?'Unbegrenzt':eur.format(bank.bal);
+    $('shophint').textContent=testMode?'Testmodus aktiv: Käufe kosten nichts.':'Gekaufte Dinge erscheinen in deiner Szene.';
+    ul.innerHTML='';
+    var cnt=Math.max(SHOP_SLOTS,SHOP_ITEMS.length);
+    for(i=0;i<cnt;i++){
+      it=SHOP_ITEMS[i];
+      li=document.createElement('li');li.className='tile'+(it?'':' empty');
+      s=document.createElement('div');s.className='tslot';
+      n=document.createElement('div');n.className='tname';
+      p=document.createElement('div');p.className='tprice';
+      if(it){
+        n.textContent=it.name;p.textContent=eur.format(it.price);
+        cv=document.createElement('canvas');cv.width=30;cv.height=30;cv.setAttribute('aria-hidden','true');
+        if(it.draw)it.draw(cv.getContext('2d'),30,30);
+        s.appendChild(cv);
+      }else{s.textContent='?';s.setAttribute('aria-hidden','true');n.textContent='Bald verfügbar';p.textContent='– €';}
+      li.appendChild(s);li.appendChild(n);li.appendChild(p);
+      if(it){
+        (function(it){
+          st=items[it.id];bt=document.createElement('button');bt.type='button';bt.className='tbtn';
+          if(!st||!st.own){
+            afford=testMode||bank.bal>=it.price-1e-9;
+            bt.textContent=!afford?'Zu wenig Geld':(buyId===it.id?'Wirklich kaufen?':'Kaufen');bt.disabled=!afford;
+            bt.addEventListener('click',function(){
+              if(buyId===it.id){buyDisarm();buy(it);renderShop();return;}
+              snd('tick');buyDisarm();buyId=it.id;buyArm=setTimeout(function(){buyDisarm();renderShop();},3500);renderShop();
+            });
+          }else{
+            bt.textContent=st.on?'Entfernen':'Einsetzen';bt.className='tbtn '+(st.on?'on':'own');
+            bt.addEventListener('click',function(){
+              st.on=!st.on;saveItems();snd('tick');
+              if(it.id==='plane'){if(!st.on)plane.on=false;scheduleFlight();}
+              renderShop();
+            });
+          }
+          li.appendChild(bt);
+        })(it);
+      }
+      ul.appendChild(li);
+    }
+  }
+  /* Testmodus */
+  var tm=$('testmode');
+  tm.checked=testMode;$('testtools').hidden=!testMode;
+  tm.addEventListener('change',function(){
+    testMode=tm.checked;try{localStorage.setItem('gehaltszaehler-test',testMode?'1':'0');}catch(e){}
+    $('testtools').hidden=!testMode;buyDisarm();scheduleFlight();if(!$('shop').hidden)renderShop();
+  });
+  $('testfly').addEventListener('click',function(){snd('tick');dlg.close();startFlight();});
+  $('testreset').addEventListener('click',function(){
+    snd('tick');items={};saveItems();plane.on=false;scheduleFlight();drawPix();if(!$('shop').hidden)renderShop();
+  });
+  function route(){
+    var shop=location.hash==='#shop';buyDisarm();
+    $('home').hidden=shop;$('shop').hidden=!shop;
+    document.title=shop?'Shop – Gehaltszähler':'Gehaltszähler';
+    if(shop)renderShop();else{fitPix();renderStats();}
+    window.scrollTo(0,0);
+  }
+  $('shopbtn').addEventListener('click',function(e){e.stopPropagation();snd('tick');location.hash='shop';});
+  $('bankcard').addEventListener('click',function(){location.hash='shop';});
+  $('shopback').addEventListener('click',function(){snd('tick');if(history.length>1&&location.hash==='#shop')history.back();else location.hash='';});
+  window.addEventListener('hashchange',route);
+  route();
 })();
 </script>
 </body>
